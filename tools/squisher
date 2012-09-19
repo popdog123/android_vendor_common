@@ -37,7 +37,7 @@ if [ ! -f "$OTAPACKAGE" ]; then
 	exit 1
 fi
 
-OPTICHARGER=$ANDROID_BUILD_TOP/vendor/oxygen/tools/opticharger
+OPTICHARGER=$ANDROID_BUILD_TOP/vendor/common/tools/opticharger
 QUIET=-q
 DELETE_BINS="applypatch applypatch_static check_prereq recovery updater"
 
@@ -84,13 +84,7 @@ rm -rf $REPACK/ota/recovery
 #	find $REPACK/ota/system/lib/modules -name "*.ko" -print0 | xargs -0 arm-eabi-strip --strip-unneeded
 
 # Determine what to name the new signed package
-if [ ! -z "$OXYGEN_RELEASE" ]; then
-	MODVERSION=`sed -n -e'/ro\.modversion/s/^.*Oxygen-//p' $REPACK/ota/system/build.prop`
-	: ${MODVERSION:=release}
-	OUTFILE=$OUT/update-oxygen-$MODVERSION-signed.zip
-else
-	OUTFILE=$OUT/update.zip
-fi
+OUTFILE=$OUT/update.zip
 
 # Pack it up and sign
 printf "Zipping package..."
